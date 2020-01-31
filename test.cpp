@@ -1,9 +1,8 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <map>
+#include "fonctions.hpp"
 
 using namespace std;
+
+
 
 int main(int argc, const char** argv)
 {
@@ -29,6 +28,7 @@ int main(int argc, const char** argv)
 
 	}
 
+
 	for(map<string, vector<string> >::iterator it = data.begin(); it != data.end(); ++it)
 	{
 		cout << "le " << it -> first << " a ete achete par :\n";
@@ -38,6 +38,31 @@ int main(int argc, const char** argv)
 	}
 
 	cout << "le nombre de produits est " << kp << endl;
+	cout << "test produit 8" << endl;
+	
+	
+	
+	
+	
+	
+	int nb_combi = 0;
 
+
+	priority_queue< pair<int, pair<string, string> > > res(fnt_corr(data));
+	pair<int, pair<string, string> > top;
+	//fnt_corr(data);
+	while(! res.empty() && nb_combi <= 100)
+	{
+		top = res.top();
+		cout << "correlation = " << top.first << endl;
+		cout << "\tpour le produit " << (top.second).first << endl;
+		cout << "\tpour le produit " << (top.second).second << endl << endl;
+		res.pop();
+		nb_combi++;
+	}
+
+	cout << "\n\n\nil y a " << nb_combi << " combinaisons\n";
+	//int ababpf = card_inter(data["produit_2"],data["produit_3"]);
+	//cout << "\n\n**********\t" << ababpf <<"\t***********\n\n"; 
 	return 0;
 }
