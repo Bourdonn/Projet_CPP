@@ -7,62 +7,44 @@ using namespace std;
 int main(int argc, const char** argv)
 {
 	assert(argc==2);
-	map<string, vector<string> > data;
-	ifstream file(argv[1]);
-	int  kp = 0, ka = 0;
-	string  client, produit, pointvirgule;
-	while(!file.eof())
-	{
-		file >> client;
-		file >> pointvirgule;
-		file >> produit;
-		ka++;
-		if(file.eof()) break;
-		if(data.find(produit) == data.end())
-		{
-			(data[produit]).push_back(client);
-			kp++;
-		}
-		else
-			(data[produit]).push_back(client);
-
-	}
 
 
-	for(map<string, vector<string> >::iterator it = data.begin(); it != data.end(); ++it)
-	{
-		cout << "le " << it -> first << " a ete achete par :\n";
-		for(vector<string>::iterator it2 = (it -> second).begin(); it2 != (it -> second).end(); ++it2)
-			cout << "\t le " << *it2 << endl;
-		cout << "\n\n\n";
-	}
 
-	cout << "le nombre de produits est " << kp << endl;
-	cout << "test produit 8" << endl;
+	//////////////////////DEBUT D'EXECUTION DU PROGRAMME////////////////////
+
+	time_t debut, fin;
+	double duree;
+	debut=time(NULL);
+
+
+	//les donnees sont stockees dans une map	
+	multimap<int, pair<string, vector<string> >, greater<int> > data(read_data(argv[1]));
+
+
+	
+	//pour afficher la map
+	//print_map_data(data);
+	//trie des combinaisons ij en fonction du cardinal de leur intersection 
+	//int rang = 1000;
+	//multimap<int, pair<string,string>, greater<int> > res(fnt_corr(data,100, rang));
+	
+	for (int rang = 100; rang <= 15000; rang += 100)
+		fnt_corr(data, 100, rang);
+
+
+	//pour afficher les 100 couples les plus correlees
+	//print_max_corr(res, 100);
 	
 	
 	
+	///////////////////TEMPS D'EXECUTION DU PROGRAMME///////////////////
 	
-	
-	
-	int nb_combi = 0;
-
-
-	priority_queue< pair<int, pair<string, string> > > res(fnt_corr(data));
-	pair<int, pair<string, string> > top;
-	//fnt_corr(data);
-	while(! res.empty() && nb_combi <= 100)
-	{
-		top = res.top();
-		cout << "correlation = " << top.first << endl;
-		cout << "\tpour le produit " << (top.second).first << endl;
-		cout << "\tpour le produit " << (top.second).second << endl << endl;
-		res.pop();
-		nb_combi++;
-	}
-
-	cout << "\n\n\nil y a " << nb_combi << " combinaisons\n";
-	//int ababpf = card_inter(data["produit_2"],data["produit_3"]);
-	//cout << "\n\n**********\t" << ababpf <<"\t***********\n\n"; 
+	fin=time(NULL);
+	duree=difftime(fin, debut);
+/*	
+	cout<<" Le temps d'exécution de ce programme est de "<<duree<<" secondes.";
+	cout<<endl;
+	cout<<endl;
+	*/
 	return 0;
 }
